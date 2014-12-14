@@ -58,10 +58,10 @@ class TeamPayService < Sinatra::Base
 
     income = Income.new(request)
 
-    income.save
-    #if incomes.save
-    #redirect "/api/v1/comparisons/#{incomes.id}"
-    #end
+    #income.save
+    if incomes.save
+      redirect "/api/v1/comparisons"
+    end
   end
 
   get '/api/v1/comparisons/:id' do
@@ -111,14 +111,14 @@ class TeamPayService < Sinatra::Base
 
     income = Income.new(request)
 
-    income.save
+    #income.save
     #incomes = Income.new
     #incomes.teamname = req['teamname']
     #incomes.playername1 = req['playername1']
 
-    #if incomes.save
-    #  redirect "/api/v1/playertotal/#{incomes.id}"
-    #end
+    if incomes.save
+      redirect "/api/v1/playertotal"
+    end
   end
 
   get '/api/v1/playertotal/:id' do
@@ -137,7 +137,7 @@ class TeamPayService < Sinatra::Base
     result
   end
 
-  
+
   #Following routes do not deal with DynamoDB
   get '/api/v1/:teamname.json' do
       content_type :json
