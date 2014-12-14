@@ -28,7 +28,7 @@ class TeamPayService < Sinatra::Base
   end
   delete '/api/v1/comparisons/:id' do
     begin
-      Income.destroy(params[:id])
+      Income.find(params[:id]).delete
     rescue
       halt 404
     end
@@ -88,7 +88,7 @@ class TeamPayService < Sinatra::Base
   end
 
   delete '/api/v1/playertotal/:id' do
-    income = Income.destroy(params[:id])
+    income = Income.find(params[:id]).delete
   end
 
   post '/api/v1/playertotal' do
