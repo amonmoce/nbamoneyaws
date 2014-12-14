@@ -6,6 +6,7 @@ gem 'nbasalaryscrape'
 gem 'nokogiri'
 gem 'json'
 gem 'aws-sdk'
+gem 'thin'
 
 group :development do
   gem 'tux'
