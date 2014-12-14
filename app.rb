@@ -60,7 +60,7 @@ class TeamPayService < Sinatra::Base
 
     #income.save
     if income.save
-      redirect "/api/v1/comparisons"
+      redirect "/api/v1/comparisons/#{income.id}"
     end
   end
 
@@ -117,7 +117,7 @@ class TeamPayService < Sinatra::Base
     #incomes.playername1 = req['playername1']
 
     if income.save
-      redirect "/api/v1/playertotal"
+      redirect "/api/v1/playertotal/#{income.id}"
     end
   end
 
