@@ -17,10 +17,17 @@ desc "Create DynamoDB tables"
     :hash_key => {id: :string}
   )
   sleep 1 while income.status == :creating
+  puts "Table #{table_name} created on DynamoDB"
 end
 
 desc "Delete DynamoDB tables"
 task :delete do
   dynamo_db = AWS::DynamoDB.new
-  dynamo_db.tables.each {|x| if x.name == 'Income' then x.delete end }
+  dynamo_db.tables.each do |x|
+    if x.name == 'Income'
+       x.delete
+       puts "Table #{x.name} deleted from DynamoDB"
+    end
+  end
+
 end

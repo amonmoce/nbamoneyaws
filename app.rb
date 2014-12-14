@@ -46,14 +46,26 @@ class TeamPayService < Sinatra::Base
       puts e.message
       halt 400
     end
-    incomes = Income.new
-    incomes.teamname = req['teamname']
-    incomes.playername1 = req['playername1']
-    incomes.playername2 = req['playername2']
-
-    if incomes.save
-      redirect "/api/v1/comparisons/#{incomes.id}"
+    dynamo_db = AWS::DynamoDB.new
+    income = dynamo_db.tables
+    dynamo_db.tables.each do |x|
+      if x.name == 'Income'
+        income = x
+        break
+      end
     end
+    #incomes.teamname = req['teamname']
+    #incomes.playername1 = req['playername1']
+    #incomes.playername2 = req['playername2']
+    request = {
+      teamname: req['teamname'],
+      playername1: req['playername1'],
+      playername2: req['playername2']
+    }
+    income.items.create({:id => request.hash.abs.to_s, :req => request.to_json})
+    #if incomes.save
+    #redirect "/api/v1/comparisons/#{incomes.id}"
+    #end
   end
 
   get '/api/v1/comparisons/:id' do
@@ -95,13 +107,28 @@ class TeamPayService < Sinatra::Base
       puts e.message
       halt 400
     end
-    incomes = Income.new
-    incomes.teamname = req['teamname']
-    incomes.playername1 = req['playername1']
 
-    if incomes.save
-      redirect "/api/v1/playertotal/#{incomes.id}"
+    dynamo_db = AWS::DynamoDB.new
+    income = dynamo_db.tables
+    dynamo_db.tables.each do |x|
+      if x.name == 'Income'
+        income = x
+        break
+      end
     end
+    request = {
+      teamname: req['teamname'],
+      playername1: req['playername1']
+    }
+    income.items.create({:id => request.hash.abs.to_s, :req => request.to_json})
+
+    #incomes = Income.new
+    #incomes.teamname = req['teamname']
+    #incomes.playername1 = req['playername1']
+
+    #if incomes.save
+    #  redirect "/api/v1/playertotal/#{incomes.id}"
+    #end
   end
 
   get '/api/v1/playertotal/:id' do
@@ -120,6 +147,7 @@ class TeamPayService < Sinatra::Base
     result
   end
 
+  #Following routes do not deal with DynamoDB
   get '/api/v1/:teamname.json' do
       content_type :json
       get_team(params[:teamname]).to_json
