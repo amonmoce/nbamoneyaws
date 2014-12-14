@@ -59,7 +59,7 @@ class TeamPayService < Sinatra::Base
     income = Income.new(request)
 
     #income.save
-    if incomes.save
+    if income.save
       redirect "/api/v1/comparisons"
     end
   end
@@ -116,7 +116,7 @@ class TeamPayService < Sinatra::Base
     #incomes.teamname = req['teamname']
     #incomes.playername1 = req['playername1']
 
-    if incomes.save
+    if income.save
       redirect "/api/v1/playertotal"
     end
   end
